@@ -1,9 +1,21 @@
 
 import app from './app';
+import helmet from 'helmet';
+import * as fs from 'fs';
+import * as https from 'https';
 
-app.listen( (err: Error) => {
-  if (err) return console.log(err);
+const port = process.env.PORT || 9999;
+const options = {};
+// const options = {
+//     key: fs.readFileSync("/srv/www/keys/my-site-key.pem"),
+//     cert: fs.readFileSync("/srv/www/keys/chain.pem")
+// };
 
-  const port = process.env.PORT || 9001;
+app.disable('x-powered-by');
+app.use(helmet());
+
+app.listen(port, () => {
   return console.log(`server is listening on ${port}`);
-})
+});
+
+// https.createServer(options, app).listen(port);
