@@ -90,6 +90,8 @@ gulp.task('images-site', () =>{
 gulp.task('copy', () =>{
     return gulp.src([
                     './src/assets/**/*.pug',
+                    './src/assets/**/*.txt',
+                    './src/assets/**/*.ttf',
                     './src/assets/manifest.json'
                 ])
                 .pipe(gulp.dest('./dist/public'))

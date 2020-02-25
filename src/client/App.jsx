@@ -2,9 +2,15 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
+
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Body from './components/Body';
+
+import { Provider } from 'react-redux';
+import { ConfigureStore } from './redux/configureStore';
+
+const store = ConfigureStore();
 
 class App extends Component {
   constructor(props){
@@ -23,11 +29,13 @@ class App extends Component {
   render(){
     return (
       <div className="App">
-          <Router>
-            <Header toggleUserProfile={this.toggleUserProfile}/>
-            <Body isUserOpen={this.state.isUserOpen}/>
-            <Footer/>
-          </Router>
+          <Provider store={store}>
+            <Router>
+              <Header toggleUserProfile={this.toggleUserProfile}/>
+              <Body isUserOpen={this.state.isUserOpen}/>
+              <Footer/>
+            </Router>
+          </Provider>
       </div>
     );
   }

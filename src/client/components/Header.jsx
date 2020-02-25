@@ -1,14 +1,11 @@
 import React, {Component} from 'react';
-import {
-    Link
-  } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 class Header extends Component {
     constructor(props){
       super(props);
       this.state = {
         isNavOpen: false,
-        isProfileOpen: false
       };
       
     }
@@ -19,36 +16,20 @@ class Header extends Component {
         })
     }
 
-    toggleProfileModal = () =>{
-        this.setState({
-            isProfileOpen: !this.state.isProfileOpen
-        })
-    }
-
-    updateUserState = (e) =>{
-        e.preventDefault();
-        this.props.toggleUserProfile();
-    }
-
     render(){
         return(
             <header className="header-flex">
-                <Link to="/"><img src="/logo-original.svg" alt="Afterwardz" id="main-name"/></Link>
+                <Link to="/" class="header-name"><img src="/logo-original.svg" alt="" id="logo"/>Elle Pope</Link>
                 <nav id="site-nav">
                     <ul>
                         <li>
-                            <Link to="/">app</Link>
+                            <Link to="/">Home</Link>
                         </li>
                         <li>
-                            <Link to="/about">About</Link>
+                            <Link to="/blog">Blog</Link>
                         </li>
                         <li>
-                            <Link to="/profile">Extended Profile</Link>
-                        </li>
-                        <li>
-                            <button id="profile-info" aria-label="Toggle User Information" onClick={(e) => this.updateUserState(e)}>
-                                USER PROFILE
-                            </button>
+                            <Link to="/personal">Personal</Link>
                         </li>
                     </ul>
                 </nav>

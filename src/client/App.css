@@ -1,8 +1,28 @@
+/** NOTE: Define your color palette here */
+
 :root {
   --box-shadow: #c7fff8;
   --medium-green: #0dc5c1;
   --teal: #00b2ca;
-  --gray: #d5d8e2;
+  --light-gray: #d5d8e2;
+  --dark-gray: #333333;
+}
+
+/** NOTE: Define your fonts here */
+
+@font-face {
+  font-family: 'Primary';
+  src: url('/fonts/OpenSans/OpenSans-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'ArticleHeading';
+  src: url('/fonts/OpenSans/Lato-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'PageHeading';
+  src: url('/fonts/ZCOOL/ZCOOLQingKeHuangYou-Regular.ttf') format('truetype');
 }
 
 * {
@@ -31,11 +51,19 @@ main {
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
+  align-items: center;
   padding: 1.5em;
-  background: linear-gradient(to right, #2e268e, #26547c); }
+  background: linear-gradient(to right, #2e268e, #26547c);
+  background: var(--medium-green);
+}
 
-#main-name {
-  height: 1.5em; }
+.header-name {
+  color: #ffffff;
+  font-family: 'PageHeading';
+  font-size: 1.5em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
 
 #site-nav ul {
   display: flex;
@@ -44,96 +72,10 @@ main {
   #site-nav ul li {
     padding: 0 0 0 2em; }
 
-.leaflet-map-pane > .leaflet-marker-pane > .leaflet-marker-icon > div {
-  display: block;
-  position: relative;
-  border-radius: 3rem 3rem 0;
-  transform: rotate(45deg);
-  border: 1px solid #fff;
-  height: 1.5em;
-  width: 1.5em;
-  transition: height .1s ease-in-out, width .1s ease-in-out; }
-
-.zoom-0 > .leaflet-map-pane > .leaflet-marker-pane > .leaflet-marker-icon > div {
-  width: .1em;
-  height: .1em; }
-
-.zoom-1 > .leaflet-map-pane > .leaflet-marker-pane > .leaflet-marker-icon > div {
-  width: .1em;
-  height: .1em; }
-
-.zoom-2 > .leaflet-map-pane > .leaflet-marker-pane > .leaflet-marker-icon > div {
-  width: .2em;
-  height: .2em; }
-
-.zoom-3 > .leaflet-map-pane > .leaflet-marker-pane > .leaflet-marker-icon > div {
-  width: .3em;
-  height: .3em; }
-
-.zoom-4 > .leaflet-map-pane > .leaflet-marker-pane > .leaflet-marker-icon > div {
-  width: .5em;
-  height: .5em; }
-
-.zoom-5 > .leaflet-map-pane > .leaflet-marker-pane > .leaflet-marker-icon > div {
-  width: .65em;
-  height: .65em; }
-
-.zoom-6 > .leaflet-map-pane > .leaflet-marker-pane > .leaflet-marker-icon > div {
-  width: .75em;
-  height: .75em; }
-
-.zoom-7 > .leaflet-map-pane > .leaflet-marker-pane > .leaflet-marker-icon > div {
-  width: .85em;
-  height: .85em; }
-
-.zoom-8 > .leaflet-map-pane > .leaflet-marker-pane > .leaflet-marker-icon > div {
-  width: 1em;
-  height: 1em; }
-
-.zoom-9 > .leaflet-map-pane > .leaflet-marker-pane > .leaflet-marker-icon > div {
-  width: 1.1em;
-  height: 1.1em; }
-
-.zoom-10 > .leaflet-map-pane > .leaflet-marker-pane > .leaflet-marker-icon > div {
-  width: 1.2em;
-  height: 1.2em; }
-
-.zoom-11 > .leaflet-map-pane > .leaflet-marker-pane > .leaflet-marker-icon > div {
-  width: 1.3em;
-  height: 1.3em; }
-
-.leaflet-container {
-  height: 500px;
-  width: 100%; }
-
-#profile-info {
-  background: none;
-  display: block;
-  position: relative;
-  border: none;
-  z-index: 10000; }
-
-#user-profile {
-  height: 100vh;
-  top: 0;
-  right: 0;
-  position: fixed;
-  max-width: 100%;
-  width: 20em;
-  background: #f7f9e8;
-  z-index: 5000;
-  transition: transform 200ms linear; }
-
-#user-profile.open {
-  transform: translate(0, 0); }
-
-#user-profile.closed {
-  transform: translate(25em, 0); }
-
 #site-footer {
   display: flex;
   flex-flow: column nowrap;
-  background: #f2f2f2;
+  background: var(--teal);
   align-items: flex-end;
   width: 100%;
   padding: 2.5em; }

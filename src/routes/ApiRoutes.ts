@@ -2,6 +2,8 @@ import * as express from 'express';
 import {Request, Response} from "express";
 import call from '../_helpers/devCalls';
 
+// NOTE: Create your API calls here! (These will be the routes that react call to)
+
 export class ApiController {
   public router: express.Router;
 
@@ -14,17 +16,32 @@ export class ApiController {
 
     app.route('/api/articles')
     .get( async (req: Request, res: Response) =>{
-      return call.published()
-                        .then( (data: CustomObj) =>{
-                          return res.json({
-                            data
-                          })
-                        })
-                        .catch( (err: CustomObj) =>{
-                          return res.json({
-                            err
-                          })
-                        })
+      return call.all()
+                  .then( (data: CustomObj) =>{
+                    return res.json({
+                      articles : data
+                    })
+                  })
+                  .catch( (err: CustomObj) =>{
+                    return res.json({
+                      error : err
+                    })
+                  })
+    });
+
+    app.route('/api/article/:id')
+    .get( async (req: Request, res: Response) =>{
+      return call.article(req.params.id)
+                  .then( (data: CustomObj) =>{
+                    return res.json({
+                      article : data
+                    })
+                  })
+                  .catch( (err: CustomObj) =>{
+                    return res.json({
+                      error : err
+                    })
+                  })
     })
   }
 }
