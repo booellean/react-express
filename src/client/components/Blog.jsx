@@ -5,11 +5,15 @@ class Blog extends Component {
     constructor(props){
       super(props);
 
-      console.log(props);
+      console.log(window.location);
 
       if(window.initialData){
         props.addArticles(window.initialData);
         window.initialData = null;
+      }
+
+      this.state = {
+          page : 1
       }
     }
 
@@ -51,7 +55,7 @@ class Blog extends Component {
     }
 
     formatAricles(articles){
-        if(articles.length > 1){
+        if(articles.length > 0){
             return (
                 <ul>
                     {articles.map( article =>{

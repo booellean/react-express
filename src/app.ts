@@ -56,6 +56,7 @@ class App {
     });
 
     this.router.get('/blog', async (req: Request, res: Response) => {
+      console.log(req.query);
       return call.all()
       .then( (data: CustomObj) =>{
         return res.status(200).render(`index.pug`, { initialData : data });
