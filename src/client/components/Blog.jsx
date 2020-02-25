@@ -23,12 +23,7 @@ class Blog extends Component {
         }
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        // TODO: Merge state only if the article isn't already there.
-        // console.log(prevState);
-    }
-
-    createTagList(article){
+    createTagList = (article) =>{
         if(article.tag_list.length > 0){
             return(
                 <ul>
@@ -44,7 +39,7 @@ class Blog extends Component {
         }
     }
 
-    createDateItem(article){
+    createDateItem = (article) =>{
         if(article.published){
             return(
                 <time datetime={article.published_at}>
@@ -54,7 +49,7 @@ class Blog extends Component {
         }
     }
 
-    formatAricles(articles){
+    formatAricles = (articles) =>{
         if(articles.length > 0){
             return (
                 <ul>
@@ -77,7 +72,24 @@ class Blog extends Component {
         }else{
             return <h3>There are no Articles at this Time!</h3>
         }
+    }
 
+    sortButton = (e, articles, type) =>{
+        const index = this.props.filters.indexOf(type + '-asc' );
+
+        if(index > -1){
+            return this.props.sortArticles(articles, type, 'desc');
+        }
+        return this.props.sortArticles(articles, type, 'asc');
+    }
+
+    filterButton = (e, tag) =>{
+        const index = this.props.filters.indexOf(tag);
+
+        if(index > -1){
+            return this.props.removeFilter([tag]);
+        }
+        return this.props.addFilter([tag]);
     }
 
     render(){
@@ -88,10 +100,21 @@ class Blog extends Component {
                 </div>
             )
         }else{
+            // TODO: Paginate here
+
+            // Filters out any items that do not have the filtered tags
+            let shownArticles = this.props.articles;
+            if(this.props.filters.length > 0){
+                shownArticles = this.props.articles.filter( article =>  article.tag_list.filter(tag => this.props.filters.includes(tag)).length > 0 );
+            }
             return(
                 <div>
                     Blog Page!
-                    { this.formatAricles(this.props.articles) }
+                    <button onClick={ (e) => this.sortButton(e, this.props.articles, 'alphabetical')}>Alphabetize</button>
+                    <button onClick={ (e) => this.sortButton(e, this.props.articles, 'date')}>Date</button>
+                    <button onClick={ (e)=> this.filterButton(e, 'tests')}>Tests Tag</button>
+                    <button onClick={ (e)=> this.filterButton(e, 'code')}>Code Tag</button>
+                    { this.formatAricles(shownArticles) }
                 </div>
             )
         }

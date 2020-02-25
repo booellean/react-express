@@ -82,3 +82,62 @@ export const addArticles = (articles) => ({
   type: ActionTypes.ADD_ARTICLES,
   payload: articles
 });
+
+export const sortArticles = (articles, sortType, order = 'DESC') => (dispatch) => {
+    console.log(articles, sortType, order);
+    switch(sortType){
+        case 'alphabetical':
+            articles.sort( (a, b) =>{
+                if(a.title > b.title){
+                    if(order.toLowerCase() === 'asc'){
+                        return 1;
+                    }else{
+                        return -1;
+                    }
+                }
+                if(a.title < b.title ){
+                    if(order.toLowerCase() === 'asc'){
+                        return -1;
+                    }else{
+                        return 1;
+                    }
+                }
+                return 0
+            });
+            break;
+        case 'date':
+            articles.sort( (a, b) =>{
+                if(a.published_at > b.published_at){
+                    if(order.toLowerCase() === 'asc'){
+                        return 1;
+                    }else{
+                        return -1;
+                    }
+                }
+                if(a.published_at < b.published_at ){
+                    if(order.toLowerCase() === 'asc'){
+                        return -1;
+                    }else{
+                        return 1;
+                    }
+                }
+                return 0
+            });
+            break;
+        default:
+            break;
+    }
+    dispatch(addArticles(articles));
+    dispatch(addFilter([sortType + '-' + (order.toLowerCase() === 'asc' ? 'asc' : 'desc')]))
+    return dispatch(removeFilter([sortType + '-' + (order.toLowerCase() === 'asc' ? 'desc' : 'asc')]))
+};
+
+export const addFilter = (filter) => ({
+    type: ActionTypes.ADD_FILTER,
+    payload: filter
+});
+
+export const removeFilter = (filter) => ({
+    type: ActionTypes.REMOVE_FILTER,
+    payload: filter
+});

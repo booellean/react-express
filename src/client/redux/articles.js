@@ -25,17 +25,30 @@ export const Article = (state = {
     errMess: null,
     article: null
 }, action) =>{
-switch(action.type) {
-    case ActionTypes.ADD_ARTICLE:
-        return {...state, isLoading: false, errMess: null, article: action.payload}
+    switch(action.type) {
+        case ActionTypes.ADD_ARTICLE:
+            return {...state, isLoading: false, errMess: null, article: action.payload}
 
-    case ActionTypes.ARTICLE_LOADING:
-        return {...state, isLoading: true, errMess: null, article: null}
+        case ActionTypes.ARTICLE_LOADING:
+            return {...state, isLoading: true, errMess: null, article: null}
 
-    case ActionTypes.ARTICLE_FAILED:
-        return {...state, isLoading: false, errMess: action.payload, article: null}
+        case ActionTypes.ARTICLE_FAILED:
+            return {...state, isLoading: false, errMess: action.payload, article: null}
 
-    default:
-        return state;
+        default:
+            return state;
+    }
 }
+
+export const Filters = (state ={
+    filters: []
+}, action) =>{
+    switch(action.type) {
+        case ActionTypes.ADD_FILTER:
+            return {...state, filters: [...state.filters, ...action.payload]}
+        case ActionTypes.REMOVE_FILTER:
+            return {...state, filters: state.filters.filter( item => !action.payload.includes(item))}
+        default:
+            return state;
+    }
 }
