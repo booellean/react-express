@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
     faTwitter,
@@ -8,6 +8,7 @@ import {
     faInstagram,
 } from '@fortawesome/free-brands-svg-icons';
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
+import { Form } from './Form';
 
 class Footer extends Component {
     constructor(props){
@@ -17,6 +18,7 @@ class Footer extends Component {
     render(){
         return(
             <footer id="site-footer">
+                <Form />
                 <nav id="social-media-nav">
                     <ul>
                         <li>
