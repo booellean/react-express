@@ -5,11 +5,22 @@ class Form extends Component {
       super(props);
     }
 
+    handleSubmission = (e) =>{
+        e.preventDefault();
+        console.log(e);
+    }
+
     render(){
         return(
-            <div>
-                Form content
-            </div>
+            <form>
+                <label for="name">Name: </label>
+                <input type="text" id="name" name="name" />
+                <label for="email">Email: </label>
+                <input type="email" id="email" name="email"/>
+                <label for="question">Question: </label>
+                <textarea id="question" name="question"></textarea>
+                <button onClick={ (e) => this.handleSubmission(e) } >Ask!</button>
+            </form>
         )
     }
 }

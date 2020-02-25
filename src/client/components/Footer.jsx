@@ -8,7 +8,7 @@ import {
     faInstagram,
 } from '@fortawesome/free-brands-svg-icons';
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
-import { Form } from './Form';
+import Form from './Form';
 
 class Footer extends Component {
     constructor(props){
