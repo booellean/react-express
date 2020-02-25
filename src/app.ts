@@ -51,7 +51,7 @@ class App {
         return res.status(200).render(`index.pug`, { initialData: data });
       })
       .catch( (err: CustomObj) =>{
-        return res.status(200).render(`index.pug`, { initialData: null, entry : null });
+        return res.status(200).render(`index.pug`);
       })
     });
 
@@ -68,13 +68,13 @@ class App {
         return res.status(200).render(`index.pug`, { initialData : data, page : page });
       })
       .catch( (err: CustomObj) =>{
-        return res.status(200).render(`index.pug`, { initialData : null });
+        return res.status(200).render(`index.pug`);
       })
     });
 
     // Every route that doesn't need a call for state are taken care of here.
     this.router.get('*', (req: Request, res: Response) => {
-      return res.status(200).render(`index.pug`, { initialData : null });
+      return res.status(200).render(`index.pug`);
     });
 
     // Assign our API routes from earlier to avoid returning a 404

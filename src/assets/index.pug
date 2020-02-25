@@ -22,9 +22,12 @@ html(lang="en")
         noscript You need to enable JavaScript to run this app. Sorry!
         div(id="root")
 
-        script.
-            window.initialData = !{JSON.stringify(initialData)};
-            window.page = !{JSON.stringify(page)};
+        if locals.initialData
+            script.
+                window.initialData = !{JSON.stringify(initialData)};
+        if locals.page
+            script.
+                window.page = !{JSON.stringify(page)};
 
         script(src="/client/bundle.js")
 
