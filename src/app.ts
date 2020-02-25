@@ -45,7 +45,7 @@ class App {
 
     // NOTE: Put custom routes here. These will only make calls if the page loads here
     // For example, if you need to make an api call or gather DB data prior to sending request. 
-    this.router.get('/blog/:id', async (req: Request, res: Response) => {
+    this.router.get('/blog/article/:id', async (req: Request, res: Response) => {
       return call.article(req.params.id)
       .then( (data: CustomObj) =>{
         return res.status(200).render(`index.pug`, { initialData: data });
@@ -55,8 +55,9 @@ class App {
       })
     });
 
-    this.router.get('/blog', async (req: Request, res: Response) => {
+    this.router.get('/blog/page/:page?', async (req: Request, res: Response) => {
       console.log(req.query);
+      console.log(req.params);
       return call.all()
       .then( (data: CustomObj) =>{
         return res.status(200).render(`index.pug`, { initialData : data });

@@ -1,5 +1,12 @@
 import React, {Component} from 'react';
+import logo from './../logo.svg';
 import { Link } from "react-router-dom";
+
+const Logo = () => {
+    return(
+      <logo/>
+    );
+  };
 
 class Header extends Component {
     constructor(props){
@@ -19,7 +26,7 @@ class Header extends Component {
     render(){
         return(
             <header className="header-flex">
-                <Link to="/" class="header-name"><img src="/logo-original.svg" alt="" id="logo"/>Elle Pope</Link>
+                <Link to="/" class="header-name"><Logo/> Elle Pope</Link>
                 <nav id="site-nav">
                     <ul>
                         <li>

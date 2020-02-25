@@ -44,7 +44,7 @@ class Body extends Component {
         return(
             <main>
                 <Switch>
-                    <Route path={'/blog/:id'} render={ (props) =><Article {...props}
+                    <Route path={'/blog/article/:id'} render={ (props) =><Article {...props}
                                                                     article={this.props.article.article}
                                                                     isLoading={this.props.article.isLoading}
                                                                     errMess={this.props.article.errMess}

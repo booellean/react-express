@@ -61,7 +61,7 @@ class Blog extends Component {
                     {articles.map( article =>{
                         return(
                             <li key={article.id}>
-                                <Link to={{ pathname : `/blog/${article.id}`, entry : article }}>
+                                <Link to={{ pathname : `/blog/article/${article.id}`, entry : article }}>
                                     <article>
                                         <h2>{ article.title }</h2>
                                         <div>{ this.createDateItem(article) }</div>
