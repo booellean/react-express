@@ -55,12 +55,17 @@ class App {
       })
     });
 
-    this.router.get('/blog/page/:page?', async (req: Request, res: Response) => {
-      console.log(req.query);
-      console.log(req.params);
+    this.router.get('/blog', async (req: Request, res: Response) => {
+
+      // Paginate!
+      let page = 1;
+
+      if(req.query.page){
+        page = req.query.page
+      }
       return call.all()
       .then( (data: CustomObj) =>{
-        return res.status(200).render(`index.pug`, { initialData : data });
+        return res.status(200).render(`index.pug`, { initialData : data, page : page });
       })
       .catch( (err: CustomObj) =>{
         return res.status(200).render(`index.pug`, { initialData : null });

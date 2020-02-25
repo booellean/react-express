@@ -5,15 +5,20 @@ class Blog extends Component {
     constructor(props){
       super(props);
 
-      console.log(window.location);
-
       if(window.initialData){
         props.addArticles(window.initialData);
         window.initialData = null;
       }
 
+      let page = 1;
+
+      if(window.page){
+        page = parseInt(window.page);
+        window.page = null;
+      }
+
       this.state = {
-          page : 1
+          currentPage : page
       }
     }
 
@@ -103,10 +108,20 @@ class Blog extends Component {
             // TODO: Paginate here
 
             // Filters out any items that do not have the filtered tags
-            let shownArticles = this.props.articles;
+            let activeArticles = this.props.articles;
             if(this.props.filters.length > 0){
-                shownArticles = this.props.articles.filter( article =>  article.tag_list.filter(tag => this.props.filters.includes(tag)).length > 0 );
+                activeArticles = this.props.articles.filter( article =>  article.tag_list.filter(tag => this.props.filters.includes(tag)).length > 0 );
             }
+            
+            const perPage = 2;
+
+            const maxPages = Math.floor(activeArticles.length/perPage);
+
+            const lastIndex = this.state.currentPage * perPage;
+            const firstIndex = lastIndex - perPage;
+
+            const shownArticles = activeArticles.slice(firstIndex, lastIndex);
+
             return(
                 <div>
                     Blog Page!
