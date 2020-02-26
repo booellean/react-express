@@ -43,5 +43,22 @@ export class ApiController {
                     })
                   })
     })
+
+    app.route('/api/contact')
+    .post( async (req: Request, res: Response) =>{
+
+      // TODO: NODEMAILER STUFF HERE
+      // return call.article(req.params.id)
+      //             .then( (data: CustomObj) =>{
+      //               return res.json({
+      //                 article : data
+      //               })
+      //             })
+      //             .catch( (err: CustomObj) =>{
+      //               return res.json({
+      //                 error : err
+      //               })
+      //             })
+    })
   }
 }
