@@ -1,5 +1,5 @@
 import {createStore, combineReducers, applyMiddleware} from 'redux';
-import { Articles, Article, Filters, Orders } from './articles';
+import { Articles, Article, Filters, Orders } from './reducers';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 
