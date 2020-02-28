@@ -15,47 +15,39 @@ class Form extends Component {
       this.messages = {};
 
       this.state = {
-          errors: {},
-          fields : {},
-          validation: {}
+          errors: {}
       }
     }
 
     componentDidMount(){
         console.log(this.fields);
-
-        // console.log(this.state);
     }
 
     handleSubmission = (e) =>{
         e.preventDefault();
 
         const errors = {};
-        // Start with fresh error state object
-        this.setState({
-            errors: {}
-        });
 
         Object.keys(this.fields).forEach( field =>{
-            // switch(field){
-            //     case 'name':
-            //         errors.name += 'This is a test error';
-            //         break;
-            //     case 'email':
-            //         break;
-            //     case 'question':
-            //         break;
-            // }
-            console.log(this.fields[field]);
-            console.log(this.validation[field]);
-            console.log(this.messages[field]);
+            const formEl = this.fields[field];
+
+            Object.keys(this.validation[field]).forEach( func =>{
+                if(!this.validation[field][func](formEl.value)){
+                    if(errors[field]){
+                        errors[field] += '<br/>' + this.messages[field][func];
+                    }else{
+                        errors[field] = this.messages[field][func];
+                    }
+                    
+                }
+            })
         });
 
         this.setState({
             errors: errors
         });
 
-        console.log(this.state);
+        console.log(this.state.errors);
     }
 
     render(){
@@ -73,7 +65,7 @@ class Form extends Component {
                         this.validation['name'] = { required, minLength: minLength(2), maxLength: maxLength(50) }
                         this.messages['name'] = { required : 'Please fill out your name.', minLength: 'Your name must be longer than 1 digit.', maxLength: 'You have a very long name! Do you have a shortened name you use?'}
                     }}/>
-                <span style={{color: "red"}}>{this.state.errors.name}</span>
+                <span style={{color: "red"}} dangerouslySetInnerHTML={{__html: this.state.errors['name']}} />
 
                 <label for="email">Email: </label>
                 <input
@@ -88,6 +80,7 @@ class Form extends Component {
                         this.messages['email'] = { required : 'Please provide an email for a response.', validEmail: 'Your email was not valid. Please check your characters.'}
                     }}
                     />
+                <span style={{color: "red"}} dangerouslySetInnerHTML={{__html: this.state.errors['email']}} />
 
                 <label for="question">Question: </label>
                 <textarea
@@ -101,6 +94,8 @@ class Form extends Component {
                         this.messages['question'] = { required : 'Your question cannot be blank.', minLength: 'That was a bit too short. You should have at least 20 characters.', maxLength: 'That was a bit long! Please keep questions brief, less than 500 characters.'}
                     }}
                     ></textarea>
+                <span style={{color: "red"}} dangerouslySetInnerHTML={{__html: this.state.errors['question']}} />
+
                 <button onClick={ (e) => this.handleSubmission(e) } >Ask!</button>
             </form>
         )
