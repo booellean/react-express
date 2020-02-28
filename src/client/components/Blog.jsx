@@ -80,7 +80,7 @@ class Blog extends Component {
     }
 
     sortButton = (e, articles, type) =>{
-        const index = this.props.filters.indexOf(type + '-asc' );
+        const index = this.props.orders.indexOf(type + '-asc' );
 
         if(index > -1){
             return this.props.sortArticles(articles, type, 'desc');

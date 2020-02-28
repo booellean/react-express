@@ -52,3 +52,16 @@ export const Filters = (state ={
             return state;
     }
 }
+
+export const Orders = (state ={
+    orders: []
+}, action) =>{
+    switch(action.type) {
+        case ActionTypes.ADD_ORDER:
+            return {...state, orders: [...state.orders, ...action.payload]}
+        case ActionTypes.REMOVE_ORDER:
+            return {...state, orders: state.orders.filter( item => !action.payload.includes(item))}
+        default:
+            return state;
+    }
+}

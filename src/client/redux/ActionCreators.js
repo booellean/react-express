@@ -84,7 +84,6 @@ export const addArticles = (articles) => ({
 });
 
 export const sortArticles = (articles, sortType, order = 'DESC') => (dispatch) => {
-    console.log(articles, sortType, order);
     switch(sortType){
         case 'alphabetical':
             articles.sort( (a, b) =>{
@@ -128,9 +127,19 @@ export const sortArticles = (articles, sortType, order = 'DESC') => (dispatch) =
             break;
     }
     dispatch(addArticles(articles));
-    dispatch(addFilter([sortType + '-' + (order.toLowerCase() === 'asc' ? 'asc' : 'desc')]))
-    return dispatch(removeFilter([sortType + '-' + (order.toLowerCase() === 'asc' ? 'desc' : 'asc')]))
+    dispatch(addOrder([sortType + '-' + (order.toLowerCase() === 'asc' ? 'asc' : 'desc')]))
+    return dispatch(removeOrder([sortType + '-' + (order.toLowerCase() === 'asc' ? 'desc' : 'asc')]))
 };
+
+export const addOrder = (order) => ({
+    type: ActionTypes.ADD_ORDER,
+    payload: order
+});
+
+export const removeOrder = (order) => ({
+    type: ActionTypes.REMOVE_ORDER,
+    payload: order
+});
 
 export const addFilter = (filter) => ({
     type: ActionTypes.ADD_FILTER,

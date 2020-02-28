@@ -15,6 +15,8 @@ import {
     addArticle,
     addFilter,
     removeFilter,
+    addOrder,
+    removeOrder,
     loadArticles, 
     loadArticle,
     sortArticles
@@ -24,7 +26,8 @@ const mapStateToProps = (state) => {
     return {
       articles: state.articles,
       article: state.article,
-      filters: state.filters
+      filters: state.filters,
+      orders: state.orders
     }
 }
 
@@ -33,6 +36,8 @@ const mapDispatchToProps = (dispatch) => ({
     addArticles: (articles) => dispatch(addArticles(articles)),
     addFilter: (type) => dispatch(addFilter(type)),
     removeFilter: (type) => dispatch(removeFilter(type)),
+    addOrder: (order) => dispatch(addOrder(order)),
+    removeOrder: (order) => dispatch(removeOrder(order)),
     loadArticle: (id) => dispatch(loadArticle(id)),
     loadArticles: () => dispatch(loadArticles()),
     sortArticles: (articles, sortType, order) => dispatch(sortArticles(articles, sortType, order))
@@ -67,12 +72,15 @@ class Body extends Component {
                             isLoading={this.props.articles.isLoading}
                             errMess={this.props.articles.errMess}
                             filters={this.props.filters.filters}
+                            orders={this.props.orders.orders}
                             addArticle={this.props.addArticle}
                             addArticles={this.props.addArticles}
                             loadArticles={this.props.loadArticles}
                             sortArticles={this.props.sortArticles}
                             addFilter={this.props.addFilter}
                             removeFilter={this.props.removeFilter}
+                            addOrder={this.props.addOrder}
+                            removeOrder={this.props.removeOrder}
                             />
                     </Route>
                     <Route path="/personal">

@@ -27,7 +27,7 @@ class Form extends Component {
         e.preventDefault();
 
         const errors = {};
-
+        // TODO: Explain what this code does... inline errors by
         Object.keys(this.fields).forEach( field =>{
             const formEl = this.fields[field];
 

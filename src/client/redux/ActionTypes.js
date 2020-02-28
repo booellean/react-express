@@ -10,3 +10,6 @@ export const ADD_ARTICLES = 'ADD_ARTICLES';
 
 export const ADD_FILTER = 'ADD_FILTER';
 export const REMOVE_FILTER = 'REMOVE_FILTER';
+
+export const ADD_ORDER = 'ADD_ORDER';
+export const REMOVE_ORDER = 'REMOVE_ORDER';
