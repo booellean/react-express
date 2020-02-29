@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import Pagination from './Pagination';
 
 class Blog extends Component {
     constructor(props){
@@ -18,7 +19,8 @@ class Blog extends Component {
       }
 
       this.state = {
-          currentPage : page
+          currentPage : page,
+          perPage : 1
       }
     }
 
@@ -79,6 +81,24 @@ class Blog extends Component {
         }
     }
 
+    filterItems = (articles) =>{
+        let filters = Object.keys(this.props.filters);
+        if(filters.length > 0){
+            filters.forEach( filter =>{
+                switch(filter){
+                    case 'tags':
+                        if(this.props.filters[filter].length > 0){
+                            articles = articles.filter( article =>  article.tag_list.filter(tag => this.props.filters[filter].includes(tag)).length > 0 );
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            })
+        }
+        return articles;
+    }
+
     sortButton = (e, articles, type) =>{
         const index = this.props.orders.indexOf(type + '-asc' );
 
@@ -88,13 +108,21 @@ class Blog extends Component {
         return this.props.sortArticles(articles, type, 'asc');
     }
 
-    filterButton = (e, tag) =>{
-        const index = this.props.filters.indexOf(tag);
-
-        if(index > -1){
-            return this.props.removeFilter([tag]);
+    filterButton = (e, type, name) =>{
+        if(this.props.filters[type]){
+            const index = this.props.filters[type].indexOf(name);
+            if(index > -1){
+                return this.props.removeFilter(type, [name]);
+            }
         }
-        return this.props.addFilter([tag]);
+
+        return this.props.addFilter(type, [name]);
+    }
+
+    updatePage = (e, pageNum) =>{
+        this.setState({
+            currentPage : pageNum
+        });
     }
 
     render(){
@@ -105,20 +133,17 @@ class Blog extends Component {
                 </div>
             )
         }else{
-            // TODO: Paginate here
-
-            // Filters out any items that do not have the filtered tags
+            // Make Copy of our master articles
             let activeArticles = this.props.articles;
-            if(this.props.filters.length > 0){
-                activeArticles = this.props.articles.filter( article =>  article.tag_list.filter(tag => this.props.filters.includes(tag)).length > 0 );
-            }
+
+            // Apply all our filters from our props
+            activeArticles = this.filterItems(activeArticles);
             
-            const perPage = 2;
+            // Define Our pagination
+            const maxPages = Math.ceil(activeArticles.length/this.state.perPage);
 
-            const maxPages = Math.floor(activeArticles.length/perPage);
-
-            const lastIndex = this.state.currentPage * perPage;
-            const firstIndex = lastIndex - perPage;
+            const lastIndex = this.state.currentPage * this.state.perPage;
+            const firstIndex = lastIndex - this.state.perPage;
 
             const shownArticles = activeArticles.slice(firstIndex, lastIndex);
 
@@ -127,9 +152,10 @@ class Blog extends Component {
                     Blog Page!
                     <button onClick={ (e) => this.sortButton(e, this.props.articles, 'alphabetical')}>Alphabetize</button>
                     <button onClick={ (e) => this.sortButton(e, this.props.articles, 'date')}>Date</button>
-                    <button onClick={ (e)=> this.filterButton(e, 'tests')}>Tests Tag</button>
-                    <button onClick={ (e)=> this.filterButton(e, 'code')}>Code Tag</button>
+                    <button onClick={ (e)=> this.filterButton(e, 'tags', 'tests')}>Tests Tag</button>
+                    <button onClick={ (e)=> this.filterButton(e, 'tags', 'code')}>Code Tag</button>
                     { this.formatAricles(shownArticles) }
+                    <Pagination currentPage={this.state.currentPage} maxPages={maxPages} updatePage={this.updatePage}/>
                 </div>
             )
         }

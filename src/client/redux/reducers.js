@@ -41,13 +41,26 @@ export const Article = (state = {
 }
 
 export const Filters = (state ={
-    filters: []
+    filters: {}
 }, action) =>{
+    let copy;
     switch(action.type) {
         case ActionTypes.ADD_FILTER:
-            return {...state, filters: [...state.filters, ...action.payload]}
+
+            copy = state.filters;
+            if(copy[action.payload.type]){
+                copy[action.payload.type] = [...copy[action.payload.type], ...action.payload.filter];
+            }else{
+                copy[action.payload.type] = action.payload.filter;
+            }
+
+            return {...state, filters: copy};
         case ActionTypes.REMOVE_FILTER:
-            return {...state, filters: state.filters.filter( item => !action.payload.includes(item))}
+
+            copy = state.filters;
+            copy[action.payload.type] = copy[action.payload.type].filter( item => !action.payload.filter.includes(item))
+
+            return {...state, filters: copy}
         default:
             return state;
     }

@@ -26,7 +26,7 @@ class Header extends Component {
     render(){
         return(
             <header className="header-flex">
-                <Link to="/" class="header-name"><Logo/> Elle Pope</Link>
+                <Link to="/" className="header-name"><Logo/> Elle Pope</Link>
                 <nav id="site-nav">
                     <ul>
                         <li>

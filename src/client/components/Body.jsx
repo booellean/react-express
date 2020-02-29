@@ -34,8 +34,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({  
     addArticle: (article) => dispatch(addArticle(article)),
     addArticles: (articles) => dispatch(addArticles(articles)),
-    addFilter: (type) => dispatch(addFilter(type)),
-    removeFilter: (type) => dispatch(removeFilter(type)),
+    addFilter: (type, filter) => dispatch(addFilter(type, filter)),
+    removeFilter: (type, filter) => dispatch(removeFilter(type, filter)),
     addOrder: (order) => dispatch(addOrder(order)),
     removeOrder: (order) => dispatch(removeOrder(order)),
     loadArticle: (id) => dispatch(loadArticle(id)),

@@ -141,12 +141,12 @@ export const removeOrder = (order) => ({
     payload: order
 });
 
-export const addFilter = (filter) => ({
+export const addFilter = (type, filter) => ({
     type: ActionTypes.ADD_FILTER,
-    payload: filter
+    payload: {type: type, filter: filter}
 });
 
-export const removeFilter = (filter) => ({
+export const removeFilter = (type, filter) => ({
     type: ActionTypes.REMOVE_FILTER,
-    payload: filter
+    payload: {type: type, filter: filter}
 });

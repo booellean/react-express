@@ -65,6 +65,11 @@ main {
   text-decoration: none;
 }
 
+.disabled-link {
+  pointer-events: none;
+  color: gray;
+}
+
 #site-nav ul {
   display: flex;
   flex-flow: row wrap;
