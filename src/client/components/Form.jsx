@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
@@ -19,41 +20,51 @@ class Form extends Component {
       }
     }
 
-    componentDidMount(){
-        console.log(this.fields);
-    }
-
     handleSubmission = (e) =>{
         e.preventDefault();
 
         const errors = {};
+        const message = {};
         // TODO: Explain what this code does... inline errors by
         Object.keys(this.fields).forEach( field =>{
             const formEl = this.fields[field];
 
-            Object.keys(this.validation[field]).forEach( func =>{
-                if(!this.validation[field][func](formEl.value)){
-                    if(errors[field]){
-                        errors[field] += '<br/>' + this.messages[field][func];
-                    }else{
-                        errors[field] = this.messages[field][func];
-                    }
+            // Object.keys(this.validation[field]).forEach( func =>{
+            //     if(!this.validation[field][func](formEl.value)){
+            //         if(errors[field]){
+            //             errors[field] += '<br/>' + this.messages[field][func];
+            //         }else{
+            //             errors[field] = this.messages[field][func];
+            //         }
                     
-                }
-            })
+            //     }else{
+                    message[field] = formEl.value;
+                // }
+            // })
         });
 
         this.setState({
             errors: errors
         });
 
-        console.log(this.state.errors);
+        // If there are no errors, let's call our server and try to send the email!
+        if(Object.keys(this.state.errors).length < 1){
+            axios.post('/api/contact', {
+                data : message
+            })
+            .then( res =>{
+                console.log(res.data);
+            })
+            .catch( err =>{
+                console.log(err);
+            })
+        }
     }
 
     render(){
         return(
             <form>
-                <label for="name">Name: </label>
+                {/* <label for="name">Name: </label>
                 <input 
                     type="text"
                     id="name"
@@ -92,6 +103,43 @@ class Form extends Component {
                         this.fields['question'] = ref;
                         this.validation['question'] = { required, minLength: minLength(20), maxLength: maxLength(500)}
                         this.messages['question'] = { required : 'Your question cannot be blank.', minLength: 'That was a bit too short. You should have at least 20 characters.', maxLength: 'That was a bit long! Please keep questions brief, less than 500 characters.'}
+                    }}
+                    ></textarea>
+                <span style={{color: "red"}} dangerouslySetInnerHTML={{__html: this.state.errors['question']}} /> */}
+
+                <label for="name">Name: </label>
+                <input 
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Name" 
+                    required 
+                    ref={(ref) => {
+                        this.fields['name'] = ref;
+                    }}/>
+                <span style={{color: "red"}} dangerouslySetInnerHTML={{__html: this.state.errors['name']}} />
+
+                <label for="email">Email: </label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Email"
+                    required
+                    ref={(ref) => {
+                        this.fields['email'] = ref;
+                    }}
+                    />
+                <span style={{color: "red"}} dangerouslySetInnerHTML={{__html: this.state.errors['email']}} />
+
+                <label for="question">Question: </label>
+                <textarea
+                    id="question"
+                    name="question"
+                    placeholder="What would you like to Ask?"
+                    required
+                    ref={(ref) => {
+                        this.fields['question'] = ref;
                     }}
                     ></textarea>
                 <span style={{color: "red"}} dangerouslySetInnerHTML={{__html: this.state.errors['question']}} />
