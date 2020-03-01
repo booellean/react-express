@@ -66,8 +66,7 @@ export class ApiController {
           // https://stackoverflow.com/questions/6659351/removing-all-script-tags-from-html-with-js-regular-expression
           .customSanitizer( (val) =>{
             return val.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
-          })
-          .escape(),
+          }),
         check('data.name')
           .not().isEmpty()
           .isLength({min : 2, max: 50})

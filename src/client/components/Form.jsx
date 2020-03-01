@@ -1,6 +1,18 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+// Require Editor JS files.
+import 'froala-editor/js/froala_editor.pkgd.min.js';
+
+// Require Editor CSS files.
+import 'froala-editor/css/froala_style.min.css';
+import 'froala-editor/css/froala_editor.pkgd.min.css';
+
+// Require Font Awesome.
+// import 'font-awesome/css/font-awesome.css';
+
+import FroalaEditor from 'react-froala-wysiwyg';
+
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
 const minLength = (len) => (val) => val && (val.length >= len);
@@ -27,7 +39,12 @@ class Form extends Component {
         const message = {};
         // TODO: Explain what this code does... inline errors by
         Object.keys(this.fields).forEach( field =>{
-            const formEl = this.fields[field];
+            let formEl = this.fields[field];
+
+            // special case for Froala editor
+            if(field == 'question'){
+                formEl = this.fields[field].el;
+            }
 
             Object.keys(this.validation[field]).forEach( func =>{
                 if(!this.validation[field][func](formEl.value)){
@@ -42,6 +59,8 @@ class Form extends Component {
                 }
             })
         });
+
+        console.log(this.fields);
 
         this.setState({
             errors: errors
@@ -103,7 +122,7 @@ class Form extends Component {
                     />
                 <span style={{color: "red"}} dangerouslySetInnerHTML={{__html: this.state.errors['email']}} />
 
-                <label for="question">Question: </label>
+                {/* <label for="question">Question: </label>
                 <textarea
                     id="question"
                     name="question"
@@ -115,6 +134,21 @@ class Form extends Component {
                         this.messages['question'] = { required : 'Your question cannot be blank.', minLength: 'That was a bit too short. You should have at least 20 characters.', maxLength: 'That was a bit long! Please keep questions brief, less than 500 characters.'}
                     }}
                     ></textarea>
+                <span style={{color: "red"}} dangerouslySetInnerHTML={{__html: this.state.errors['question']}} /> */}
+
+                <label for="question">Question: </label>
+                <FroalaEditor
+                    id="question"
+                    tag='textarea'
+                    // config={this.config}
+                    // model={this.state.model}
+                    // onModelChange={this.handleModelChange}
+                    ref={(ref) => {
+                        this.fields['question'] = ref;
+                        this.validation['question'] = { required, minLength: minLength(20), maxLength: maxLength(500)}
+                        this.messages['question'] = { required : 'Your question cannot be blank.', minLength: 'That was a bit too short. You should have at least 20 characters.', maxLength: 'That was a bit long! Please keep questions brief, less than 500 characters.'}
+                    }}
+                />
                 <span style={{color: "red"}} dangerouslySetInnerHTML={{__html: this.state.errors['question']}} />
 
                 <button onClick={ (e) => this.handleSubmission(e) } >Ask!</button>
