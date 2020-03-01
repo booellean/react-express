@@ -90,7 +90,7 @@ export class ApiController {
           let name = error.param.split('.')[1];
           returnErrors[name] = error.msg;
         });
-        return res.json({
+        return res.status(401).json({
           errors : returnErrors
         })
       }

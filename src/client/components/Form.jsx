@@ -29,18 +29,18 @@ class Form extends Component {
         Object.keys(this.fields).forEach( field =>{
             const formEl = this.fields[field];
 
-            // Object.keys(this.validation[field]).forEach( func =>{
-            //     if(!this.validation[field][func](formEl.value)){
-            //         if(errors[field]){
-            //             errors[field] += '<br/>' + this.messages[field][func];
-            //         }else{
-            //             errors[field] = this.messages[field][func];
-            //         }
+            Object.keys(this.validation[field]).forEach( func =>{
+                if(!this.validation[field][func](formEl.value)){
+                    if(errors[field]){
+                        errors[field] += '<br/>' + this.messages[field][func];
+                    }else{
+                        errors[field] = this.messages[field][func];
+                    }
                     
-            //     }else{
+                }else{
                     message[field] = formEl.value;
-                // }
-            // })
+                }
+            })
         });
 
         this.setState({
@@ -53,10 +53,20 @@ class Form extends Component {
                 data : message
             })
             .then( res =>{
-                console.log(res.data);
+                if(res.data.success){
+                    // TODO: custom message that it was sent!
+                    // Clear the form
+                }
+                if(res.data.errors){
+                    // TODO: custom message that they broke some rules and need to correct their form before sending
+                }
+                if(res.data.error){
+                    // TODO: message sending failed
+                }
             })
             .catch( err =>{
                 console.log(err);
+                // TODO: message sending failed
             })
         }
     }
@@ -64,7 +74,7 @@ class Form extends Component {
     render(){
         return(
             <form>
-                {/* <label for="name">Name: </label>
+                <label for="name">Name: </label>
                 <input 
                     type="text"
                     id="name"
@@ -103,43 +113,6 @@ class Form extends Component {
                         this.fields['question'] = ref;
                         this.validation['question'] = { required, minLength: minLength(20), maxLength: maxLength(500)}
                         this.messages['question'] = { required : 'Your question cannot be blank.', minLength: 'That was a bit too short. You should have at least 20 characters.', maxLength: 'That was a bit long! Please keep questions brief, less than 500 characters.'}
-                    }}
-                    ></textarea>
-                <span style={{color: "red"}} dangerouslySetInnerHTML={{__html: this.state.errors['question']}} /> */}
-
-                <label for="name">Name: </label>
-                <input 
-                    type="text"
-                    id="name"
-                    name="name"
-                    placeholder="Name" 
-                    required 
-                    ref={(ref) => {
-                        this.fields['name'] = ref;
-                    }}/>
-                <span style={{color: "red"}} dangerouslySetInnerHTML={{__html: this.state.errors['name']}} />
-
-                <label for="email">Email: </label>
-                <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    placeholder="Email"
-                    required
-                    ref={(ref) => {
-                        this.fields['email'] = ref;
-                    }}
-                    />
-                <span style={{color: "red"}} dangerouslySetInnerHTML={{__html: this.state.errors['email']}} />
-
-                <label for="question">Question: </label>
-                <textarea
-                    id="question"
-                    name="question"
-                    placeholder="What would you like to Ask?"
-                    required
-                    ref={(ref) => {
-                        this.fields['question'] = ref;
                     }}
                     ></textarea>
                 <span style={{color: "red"}} dangerouslySetInnerHTML={{__html: this.state.errors['question']}} />
