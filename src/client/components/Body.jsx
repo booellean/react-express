@@ -69,6 +69,7 @@ class Body extends Component {
                     <Route path="/blog">
                         <Blog 
                             articles={this.props.articles.articles}
+                            tags={this.props.tags}
                             isLoading={this.props.articles.isLoading}
                             errMess={this.props.articles.errMess}
                             filters={this.props.filters.filters}

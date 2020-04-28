@@ -126,6 +126,23 @@ class Blog extends Component {
         });
     }
 
+    TagList = (tags) =>{
+
+        const taglist = tags.map( tag => {
+            return(
+                <li key={tag}>
+                    <button onClick={ (e)=> this.filterButton(e, 'tags', tag)}>{tag}</button>
+                </li>
+            )
+        });
+    
+        return(
+            <ul>
+                {taglist}
+            </ul>
+        );
+    }
+
     render(){
         if(this.props.isLoading){
             return(
@@ -137,22 +154,39 @@ class Blog extends Component {
 
             // Apply all our filters from our props
             activeArticles = this.filterItems(activeArticles);
-            
+
             // Define Our pagination
             const maxPages = Math.ceil(activeArticles.length/this.state.perPage);
+
+            if(this.state.currentPage > maxPages){
+                this.setState({
+                    currentPage: maxPages
+                });
+            }
 
             const lastIndex = this.state.currentPage * this.state.perPage;
             const firstIndex = lastIndex - this.state.perPage;
 
             const shownArticles = activeArticles.slice(firstIndex, lastIndex);
 
+            // Create a unique taglist to filter from
+            // Thank you Adria from https://stackoverflow.com/questions/1584370/how-to-merge-two-arrays-in-javascript-and-de-duplicate-items!
+            const mergeDedupe = (arr) => {
+                return [...new Set([].concat(...arr))];
+            }
+        
+            let tags = activeArticles.map( a =>{
+                return a.tag_list;
+            });
+
+            tags = mergeDedupe(tags).sort();
+
             return(
                 <div>
                     Blog Page!
                     <button onClick={ (e) => this.sortButton(e, this.props.articles, 'alphabetical')}>Alphabetize</button>
                     <button onClick={ (e) => this.sortButton(e, this.props.articles, 'date')}>Date</button>
-                    <button onClick={ (e)=> this.filterButton(e, 'tags', 'tests')}>Tests Tag</button>
-                    <button onClick={ (e)=> this.filterButton(e, 'tags', 'code')}>Code Tag</button>
+                    { this.TagList(tags) }
                     { this.formatAricles(shownArticles) }
                     <Pagination currentPage={this.state.currentPage} maxPages={maxPages} updatePage={this.updatePage}/>
                 </div>
