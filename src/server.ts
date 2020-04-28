@@ -4,7 +4,7 @@ import helmet from 'helmet';
 import * as fs from 'fs';
 import * as https from 'https';
 
-const port = process.env.PORT || 9999;
+const port = process.env.PORT || 80;
 const options = {};
 // const options = {
 //     key: fs.readFileSync("/srv/www/keys/my-site-key.pem"),

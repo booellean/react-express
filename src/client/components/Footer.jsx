@@ -8,6 +8,7 @@ import {
     faInstagram,
 } from '@fortawesome/free-brands-svg-icons';
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
+import Brand from './../brand.svg';
 import Form from './Form';
 
 class Footer extends Component {
@@ -54,7 +55,7 @@ class Footer extends Component {
                     </ul>
                 </nav>
                 <small id="copyright">
-                    &copy; {new Date().getFullYear()}. ALL RIGHTS RESERVED
+                    &copy; {new Date().getFullYear()} <span dangerouslySetInnerHTML={{__html: Brand}} />
                 </small>
             </footer>
         )

@@ -16,6 +16,12 @@ html(lang="en")
         meta(name="author" content="Elle 'booellean' Pope")
         meta(name="description" content="Elle Pope Tech: My personal site showing off my technical achievements.")
 
+        if locals.page
+            meta(property="og:title" content=`${locals.initialData['title']}`)
+            meta(property="og:image" content=(locals.initialData.cover_image ? `${locals.initialData.cover_image}` : `${locals.url}/logo512.png`))
+            meta(property="og:description" content=`${locals.initialData.description}`)
+            meta(property="og:url" content=`${locals.url}`)
+
         link(rel="stylesheet" type="text/css" href="/css/styles.min.css")
         title #{locals.title} 
     body

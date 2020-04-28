@@ -19,7 +19,7 @@ class App {
     this.app = express();
     this.router = express.Router();
     // TODO: change this here?
-    this.url = process.env.URL || 'http://localhost:9999/';
+    this.url = process.env.URL || 'http://local.ellepope.tech/';
 
     this.config();
     this.mountRoutes();
@@ -48,7 +48,7 @@ class App {
     this.router.get('/blog/article/:id', async (req: Request, res: Response) => {
       return call.article(req.params.id)
       .then( (data: CustomObj) =>{
-        return res.status(200).render(`index.pug`, { initialData: data });
+        return res.status(200).render(`index.pug`, { initialData: data, url: this.url });
       })
       .catch( (err: CustomObj) =>{
         return res.status(200).render(`index.pug`);

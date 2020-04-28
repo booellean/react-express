@@ -14,6 +14,7 @@
   "author": "Elle 'booellean' Pope",
   "license": "ISC",
   "dependencies": {
+    "@babel/polyfill": "^7.8.7",
     "@fortawesome/fontawesome-svg-core": "^1.2.27",
     "@fortawesome/free-brands-svg-icons": "^5.12.1",
     "@fortawesome/free-regular-svg-icons": "^5.12.1",
@@ -30,10 +31,12 @@
     "pug": "^2.0.4",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-froala-wysiwyg": "^3.1.0",
+    "react-markdown": "^4.3.1",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
+    "react-rte": "^0.16.1",
     "react-scripts": "^3.4.0",
+    "react-syntax-highlighter": "^12.2.1",
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0"
@@ -62,13 +65,14 @@
     "gulp-typescript": "^6.0.0-alpha.1",
     "gulp-uglify": "^3.0.2",
     "gulp-util": "^3.0.8",
+    "node-sass": "^4.13.1",
     "nodemon": "^2.0.2",
     "postcss-loader": "^3.0.0",
     "sass-loader": "^8.0.2",
     "style-loader": "^1.1.3",
-    "svg-url-loader": "^4.0.0",
+    "svg-inline-loader": "^0.8.2",
     "typescript": "^3.8.2",
-    "webpack": "^4.41.6",
+    "webpack": "^4.42.0",
     "webpack-cli": "^3.3.11"
   },
   "babel": {

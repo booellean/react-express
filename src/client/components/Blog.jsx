@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import Loading from './Loading';
 import Pagination from './Pagination';
 
 class Blog extends Component {
@@ -128,9 +129,7 @@ class Blog extends Component {
     render(){
         if(this.props.isLoading){
             return(
-                <div>
-                    Loading...
-                </div>
+                <Loading />
             )
         }else{
             // Make Copy of our master articles

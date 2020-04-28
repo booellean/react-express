@@ -1,5 +1,4 @@
 const autoprefixer = require('autoprefixer');
-const webpack = require('webpack');
 
 const config = {
   entry: [__dirname + '/src/client/index.js'],
@@ -19,10 +18,7 @@ const config = {
         test: /\.svg$/,
         use: [
           {
-            loader: 'svg-url-loader',
-            options: {
-              limit: 10000,
-            },
+            loader: 'svg-inline-loader',
           },
         ],
       },
@@ -60,25 +56,13 @@ const config = {
       }, {
         test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
         use: "file-loader"
-      }, {
-        test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-        use: "url-loader?limit=10000&mimetype=image/svg+xml"
-      }
+      },
     ]
   },
   resolve: {
-    alias: {
-     FroalaEditor: 'file_name'
-    },
     extensions: ['.js', '.jsx'],
-    modules: ['../node_modules/froala-editor/js','node_modules']
+    modules: ['node_modules']
   },
-  plugins: [
-    new webpack.ProvidePlugin({
-       FroalaEditor: 'file_name'
-    })
-  ]
 };
-file_name : 'froala_editor.min.js/froala_editor.pkgd.min.js';
 
 module.exports = config;

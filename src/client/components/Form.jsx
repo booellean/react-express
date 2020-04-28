@@ -1,17 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-// Require Editor JS files.
-import 'froala-editor/js/froala_editor.pkgd.min.js';
-
-// Require Editor CSS files.
-import 'froala-editor/css/froala_style.min.css';
-import 'froala-editor/css/froala_editor.pkgd.min.css';
-
-// Require Font Awesome.
-// import 'font-awesome/css/font-awesome.css';
-
-import FroalaEditor from 'react-froala-wysiwyg';
+import RichTextEditor from 'react-rte';
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
@@ -28,7 +18,21 @@ class Form extends Component {
       this.messages = {};
 
       this.state = {
-          errors: {}
+          errors: {},
+          value : RichTextEditor.createEmptyValue(),
+          toolbarConfig : {
+            // Optionally specify the groups to display (displayed in the order listed).
+            display: ['INLINE_STYLE_BUTTONS', 'LINK_BUTTONS', 'HISTORY_BUTTONS'],
+            INLINE_STYLE_BUTTONS: [
+              {label: 'Bold', style: 'BOLD', className: 'text-options'},
+              {label: 'Italic', style: 'ITALIC', className: 'text-options'},
+              {label: 'Underline', style: 'UNDERLINE', className: 'text-options'}
+            ],
+            BLOCK_TYPE_BUTTONS: [
+              {label: 'UL', style: 'unordered-list-item'},
+              {label: 'OL', style: 'ordered-list-item'}
+            ]
+          },
       }
     }
 
@@ -39,15 +43,17 @@ class Form extends Component {
         const message = {};
         // TODO: Explain what this code does... inline errors by
         Object.keys(this.fields).forEach( field =>{
-            let formEl = this.fields[field];
+            let formField;
 
             // special case for Froala editor
             if(field == 'question'){
-                formEl = this.fields[field].el;
+                formField = this.state.value.toString('html');
+            }else{
+                formField = this.fields[field].value;
             }
 
             Object.keys(this.validation[field]).forEach( func =>{
-                if(!this.validation[field][func](formEl.value)){
+                if(!this.validation[field][func](formField)){
                     if(errors[field]){
                         errors[field] += '<br/>' + this.messages[field][func];
                     }else{
@@ -55,7 +61,7 @@ class Form extends Component {
                     }
                     
                 }else{
-                    message[field] = formEl.value;
+                    message[field] = formField;
                 }
             })
         });
@@ -90,6 +96,19 @@ class Form extends Component {
         }
     }
 
+    // For the wysiwyg editor
+    onChange = (value) => {
+        this.setState({value});
+        if (this.props.onChange) {
+          // Send the changes up to the parent component as an HTML string.
+          // This is here to demonstrate using `.toString()` but in a real app it
+          // would be better to avoid generating a string on each change.
+          this.props.onChange(
+            value.toString('html')
+          );
+        }
+      };
+
     render(){
         return(
             <form>
@@ -100,7 +119,7 @@ class Form extends Component {
                     name="name"
                     placeholder="Name" 
                     required 
-                    ref={(ref) => {
+                    ref={ (ref) => {
                         this.fields['name'] = ref;
                         this.validation['name'] = { required, minLength: minLength(2), maxLength: maxLength(50) }
                         this.messages['name'] = { required : 'Please fill out your name.', minLength: 'Your name must be longer than 1 digit.', maxLength: 'You have a very long name! Do you have a shortened name you use?'}
@@ -114,7 +133,7 @@ class Form extends Component {
                     name="email"
                     placeholder="Email"
                     required
-                    ref={(ref) => {
+                    ref={ (ref) => {
                         this.fields['email'] = ref;
                         this.validation['email'] = { required, validEmail }
                         this.messages['email'] = { required : 'Please provide an email for a response.', validEmail: 'Your email was not valid. Please check your characters.'}
@@ -122,34 +141,24 @@ class Form extends Component {
                     />
                 <span style={{color: "red"}} dangerouslySetInnerHTML={{__html: this.state.errors['email']}} />
 
-                {/* <label for="question">Question: </label>
-                <textarea
-                    id="question"
-                    name="question"
-                    placeholder="What would you like to Ask?"
-                    required
-                    ref={(ref) => {
-                        this.fields['question'] = ref;
-                        this.validation['question'] = { required, minLength: minLength(20), maxLength: maxLength(500)}
-                        this.messages['question'] = { required : 'Your question cannot be blank.', minLength: 'That was a bit too short. You should have at least 20 characters.', maxLength: 'That was a bit long! Please keep questions brief, less than 500 characters.'}
-                    }}
-                    ></textarea>
-                <span style={{color: "red"}} dangerouslySetInnerHTML={{__html: this.state.errors['question']}} /> */}
-
                 <label for="question">Question: </label>
-                <FroalaEditor
-                    id="question"
-                    tag='textarea'
-                    // config={this.config}
-                    // model={this.state.model}
-                    // onModelChange={this.handleModelChange}
-                    ref={(ref) => {
-                        this.fields['question'] = ref;
-                        this.validation['question'] = { required, minLength: minLength(20), maxLength: maxLength(500)}
-                        this.messages['question'] = { required : 'Your question cannot be blank.', minLength: 'That was a bit too short. You should have at least 20 characters.', maxLength: 'That was a bit long! Please keep questions brief, less than 500 characters.'}
-                    }}
-                />
-                <span style={{color: "red"}} dangerouslySetInnerHTML={{__html: this.state.errors['question']}} />
+                <div id="question"
+                     role="textbox"
+                     contenteditable="true"
+                     >
+                    <RichTextEditor
+                        tag='textarea'
+                        toolbarConfig={this.state.toolbarConfig}
+                        value={this.state.value}
+                        onChange={this.onChange}
+                        ref={ (ref) => {
+                            this.fields['question'] = ref;
+                            this.validation['question'] = { required, minLength: minLength(20), maxLength: maxLength(500)}
+                            this.messages['question'] = { required : 'Your question cannot be blank.', minLength: 'That was a bit too short. You should have at least 20 characters.', maxLength: 'That was a bit long! Please keep questions brief, less than 500 characters.'}
+                        }}
+                    />
+                    <span style={{color: "red"}} dangerouslySetInnerHTML={{__html: this.state.errors['question']}} />
+                </div>
 
                 <button onClick={ (e) => this.handleSubmission(e) } >Ask!</button>
             </form>

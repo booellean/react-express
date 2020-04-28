@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+    faChevronLeft,
+    faChevronRight,
+    faAngleLeft,
+    faAngleRight,
+} from '@fortawesome/free-solid-svg-icons';
 
 class Pagination extends Component {
     constructor(props){
@@ -21,27 +28,27 @@ class Pagination extends Component {
             navitems.push(
                 <li aria-label="First Page">
                     <Link aria-posinset="1" to={{ search: '?page=1' }}className="disabled-link">
-                        <span aria-hidden="true">«</span>
+                        <FontAwesomeIcon icon={faChevronLeft} />
                     </Link>
                 </li>);
             navitems.push(
                 <li aria-label="Previous Page">
                     <Link aria-posinset="1" to={{ search: '?page=1' }} className="disabled-link">
-                        <span aria-hidden="true">«</span>
+                        <FontAwesomeIcon icon={faAngleLeft} />
                     </Link>
                 </li>);
         }else{
             navitems.push(
                 <li aria-label="First Page">
                     <Link aria-posinset="1" to={{ search: '?page=1' }} onClick={ (e) => this.props.updatePage(e, 1)}>
-                        <span aria-hidden="true">«</span>
+                        <FontAwesomeIcon icon={faChevronLeft} />
                     </Link>
                 </li>);
     
             navitems.push(
                 <li aria-label="Previous Page">
                     <Link aria-posinset={this.props.currentPage - 1} to={{ search: '?page=' + (this.props.currentPage - 1) }} onClick={ (e) => this.props.updatePage(e, (this.props.currentPage - 1))}>
-                        <span aria-hidden="true">«</span>
+                        <FontAwesomeIcon icon={faAngleLeft} />
                     </Link>
                 </li>);
         }
@@ -58,10 +65,10 @@ class Pagination extends Component {
         while(!finished){
             if(maxItems == 0){
                 if(countDown > 1){
-                    navitems.splice(2, 0, <li>...</li>);
+                    navitems.splice(2, 0, <li aria-hidden="true">...</li>);
                 }
                 if(countUp < this.props.maxPages){
-                    navitems.push(<li>...</li>);
+                    navitems.push(<li aria-hidden="true">...</li>);
                 }
                 finished = true;
                 break;
@@ -101,26 +108,26 @@ class Pagination extends Component {
             navitems.push(
                 <li aria-label="Next Page">
                     <Link aria-posinset={this.props.maxPages} to={{ search: '?page=' + this.props.maxPages }} className="disabled-link">
-                        <span aria-hidden="true">»</span>
+                        <FontAwesomeIcon icon={faAngleRight} />
                     </Link>
                 </li>);
                 navitems.push(
                     <li aria-label="Last Page">
                         <Link aria-posinset={this.props.maxPages} to={{ search: '?page=' + this.props.maxPages }} className="disabled-link">
-                            <span aria-hidden="true">»</span>
+                            <FontAwesomeIcon icon={faChevronRight} />
                         </Link>
                     </li>);
         }else{
             navitems.push(
                 <li aria-label="Next Page">
                     <Link aria-posinset={this.props.currentPage + 1} to={{ search: '?page=' + (this.props.currentPage + 1) }} onClick={ (e) => this.props.updatePage(e, (this.props.currentPage + 1))}>
-                        <span aria-hidden="true">»</span>
+                        <FontAwesomeIcon icon={faAngleRight} />
                     </Link>
                 </li>);
             navitems.push(
                 <li aria-label="Last Page">
                     <Link aria-posinset={this.props.maxPages} to={{ search: '?page=' + this.props.maxPages }}onClick={ (e) => this.props.updatePage(e, this.props.maxPages)}>
-                        <span aria-hidden="true">»</span>
+                        <FontAwesomeIcon icon={faChevronRight} />
                     </Link>
                 </li>);
         }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import './App.css';
+import './App.scss';
+import "@babel/polyfill";
 
 import Header from './components/Header';
 import Footer from './components/Footer';
